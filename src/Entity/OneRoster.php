@@ -11,45 +11,46 @@
  * @license  http://www.osedu.org/licenses/ECL-2.0 ECL-2.0 License
  */
 
+namespace OpenLRW\Entity;
+
+use OpenLRW\ApiClient;
+
 abstract class OneRoster
 {
 
     const PREFIX = 'api/';
 
-    /**
-     * Create a header for HTTP Request to OneRoster routes.
-     *
-     * @return array
-     */
-    protected function generateHeader()
+    protected static function generateHeader()
     {
+        $jwt = ApiClient::smartJwt();
+
         return [
         'X-Requested-With' => 'XMLHttpRequest',
-        'Authorization' => 'Bearer ' . ApiClient::makeJWT()
+        'Authorization' => "Bearer $jwt"
         ];
     }
 
-    protected function get($route)
+    public static function get($route)
     {
-        $header = $this->generateHeader();
-        return ApiClient::$http->get(self::PREFIX . $route, $header);
+        $header = self::generateHeader();
+        return ApiClient::httpGet(self::PREFIX . $route, $header);
     }
 
-    protected function post($route, $data)
+    public static function post($route, $data)
     {
-        $header = $this->generateHeader();
-        return ApiClient::$http->post(self::PREFIX . $route, $header, $data);
+        $header = self::generateHeader();
+        return ApiClient::httpPost(self::PREFIX . $route, $header, $data);
     }
 
-    protected function patch($route, $data)
+    public static function patch($route, $data)
     {
-        $header = $this->generateHeader();
-        return ApiClient::$http->patch(self::PREFIX . $route, $header, $data);
+        $header = self::generateHeader();
+        return ApiClient::httpPatch(self::PREFIX . $route, $header, $data);
     }
 
-    protected function delete($route)
+    public static function delete($route)
     {
-        $header = $this->generateHeader();
-        return ApiClient::$http->delete(self::PREFIX . $route, $header);
+        $header = self::generateHeader();
+        return ApiClient::httpDelete(self::PREFIX . $route, $header);
     }
 }
