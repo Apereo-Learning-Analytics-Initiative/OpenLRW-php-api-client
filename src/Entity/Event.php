@@ -11,10 +11,17 @@
  * @license  http://www.osedu.org/licenses/ECL-2.0 ECL-2.0 License
  */
 
+
+namespace OpenLRW\Entity;
+
+ use DateTime;
+ use OpenLRW\ApiClient;
+ use OpenLRW\Exception\GenericException;
+
  class Event
 {
 
-    public static function postCaliper($data)
+    private static function postCaliper($data)
     {
         $header =  [
             'X-Requested-With' => 'XMLHttpRequest',
@@ -22,7 +29,7 @@
             'Authorization' =>  ApiClient::getKey()
         ];
 
-        return ApiClient::$http->post(self::PREFIX . "key/caliper", $header, $data);
+        return ApiClient::guzzlePost("key/caliper", ['headers' => $header, 'body' => $data])->getStatusCode();
     }
 
 
@@ -36,7 +43,7 @@
       * @param string $groupId
       * @return string
       */
-     protected static function caliper($userId, $action, $applicationName = "php-api-client", $description = "", $groupId =  "null")
+     public static function caliperFactory($userId, $action, $description = '', $groupId =  'null', $applicationName = 'php-api-client')
      {
          $date = date_format(new DateTime('NOW'), 'Y-m-d\TH:i:s.755\Z');
          $eventId = sha1($userId . $date);
@@ -56,6 +63,7 @@
                     "@id": "' . $eventId . '",
                     "@type": "SoftwareApplication",
                     "name": "' . $applicationName . '",
+                    "description": "' . $description . '"
                  },
                 "group": { 
                     "@id": "' . $groupId . '",
@@ -68,11 +76,9 @@
         }';
 
          try {
-             $status = self::postCaliper($json);
-             return $status;
-             return $status;
+             return self::postCaliper($json);
          } catch (\Exception $e) {
-             return $e->getMessage();
+             throw new GenericException($e->getMessage());
          }
      }
 
