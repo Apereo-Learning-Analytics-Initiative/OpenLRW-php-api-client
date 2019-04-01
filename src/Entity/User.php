@@ -13,7 +13,7 @@
 
 namespace OpenLRW\Entity;
 
-use OneRoster;
+use OpenLRW\Entity\OneRoster;
 
 class User extends OneRoster
 {
