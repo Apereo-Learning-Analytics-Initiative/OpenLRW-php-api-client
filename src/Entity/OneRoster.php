@@ -13,16 +13,24 @@
 
 namespace OpenLRW\Entity;
 
-use OpenLRW\ApiClient;
+use OpenLRW\OpenLRW;
+use OpenLRW\Exception\InternalServerErrorException;
 
 abstract class OneRoster
 {
 
     const PREFIX = 'api/';
 
-    protected static function generateHeader()
+    /**
+     * @return array
+     */
+    protected static function generateHeader(): array
     {
-        $jwt = ApiClient::smartJwt();
+        try {
+            $jwt = OpenLRW::smartJwt();
+        } catch (\Exception $e) {
+            throw new InternalServerErrorException('Impossible to create a JWT. Server might be down or you provided invalid credentials.');
+        }
 
         return [
         'X-Requested-With' => 'XMLHttpRequest',
@@ -33,24 +41,24 @@ abstract class OneRoster
     public static function get($route)
     {
         $header = self::generateHeader();
-        return ApiClient::httpGet(self::PREFIX . $route, $header);
+        return OpenLRW::httpGet(self::PREFIX . $route, $header);
     }
 
     public static function post($route, $data)
     {
         $header = self::generateHeader();
-        return ApiClient::httpPost(self::PREFIX . $route, $header, $data);
+        return OpenLRW::httpPost(self::PREFIX . $route, $header, $data);
     }
 
     public static function patch($route, $data)
     {
         $header = self::generateHeader();
-        return ApiClient::httpPatch(self::PREFIX . $route, $header, $data);
+        return OpenLRW::httpPatch(self::PREFIX . $route, $header, $data);
     }
 
     public static function delete($route)
     {
         $header = self::generateHeader();
-        return ApiClient::httpDelete(self::PREFIX . $route, $header);
+        return OpenLRW::httpDelete(self::PREFIX . $route, $header);
     }
 }
