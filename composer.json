@@ -2,7 +2,7 @@
   "name": "openlrw/api-client",
   "description": "PHP client for Apereo OpenLRW API",
   "type": "library",
-  "keywords": ["API", "OpenLRW", "REST", "Learning-Analytics"],
+  "keywords": ["API", "OpenLRW", "REST", "Learning-Analytics", "LRS"],
   "homepage": "https://github.com/Apereo-Learning-Analytics-Initiative/OpenLRW-php-api-client",
   "license": "ECL-2.0",
   "authors": [
@@ -16,6 +16,9 @@
     "php":                           "^7.0.0",
     "guzzlehttp/guzzle":             "^6.3.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  },
   "config": {
     "preferred-install": {
       "*": "dist"
@@ -23,8 +26,9 @@
     "sort-packages": true
   },
   "autoload": {
-    "psr-4": {
-      "OpenLRW\\": "src/"
-    }
+    "psr-4": { "OpenLRW\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Tests\\": "tests/"}
   }
 }
