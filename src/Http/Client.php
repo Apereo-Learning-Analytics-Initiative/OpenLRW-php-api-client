@@ -42,12 +42,12 @@ class Client
         try {
             return json_decode(self::$http->request('GET', $route, ['headers' => $header])->getBody()->getContents());
         } catch (GuzzleException $e) {
-            if ($e->getCode() == 401) {
-                throw new ExpiredJwtException();
-            } else if ($e->getCode() == 404) {
-                throw new NotFoundException();
+            if ($e->getCode() === 401) {
+                throw new ExpiredJwtException($e->getMessage());
+            } else if ($e->getCode() === 404) {
+                throw new NotFoundException($e->getMessage());
             }
-            throw new GenericException($e);
+            throw new GenericException($e->getMessage());
         }
 
     }
@@ -66,16 +66,20 @@ class Client
         try {
             return self::$http->patch($route, ['headers' => $header, 'body' => $json])->getStatusCode();
         } catch (GuzzleException $e) {
-            if ($e->getCode() == 401)
-                throw new ExpiredJwtException();
-            else if ($e->getCode() == 404)
+            if ($e->getCode() === 401) {
+                throw new ExpiredJwtException($e->getMessage());
+            }
+
+            if ($e->getCode() === 404) {
                 return null;
-            throw new GenericException($e);
+            }
+
+            throw new GenericException($e->getMessage());
         }
     }
 
     /**
-     * Generic function to send HTTP PATCH requests
+     * Generic function to send HTTP POST requests
      *
      * @param string $route
      * @param array $header
@@ -83,21 +87,21 @@ class Client
      * @return mixed|null
      * @throws \Exception
      */
-    public function post(string $route, array $header, $json)
+    public function post(string $route, array $json, array $header = ['X-Requested-With' => 'XMLHttpRequest', 'Content-Type' => 'application/json'])
     {
         try {
-            return self::$http->patch($route, ['headers' => $header, 'body' => $json])->getStatusCode();
+            return json_decode(self::$http->request('POST', $route, ['headers' => $header, 'json' => $json])->getBody()->getContents());
         } catch (GuzzleException $e) {
-            if ($e->getCode() == 401)
-                throw new ExpiredJwtException();
-            else if ($e->getCode() == 404)
-                return null;
-            throw new GenericException($e);
+            if ($e->getCode() === 401) {
+                throw new ExpiredJwtException($e->getMessage());
+            }
+
+            throw new GenericException($e->getMessage());
         }
     }
 
     /**
-     * Generic function to send HTTP PATCH requests
+     * Generic function to send HTTP DELETE requests
      *
      * @param String $route
      * @param array $header
@@ -109,11 +113,26 @@ class Client
         try {
             return self::$http->delete($route, ['headers' => $header])->getStatusCode();
         } catch (GuzzleException $e) {
-            if ($e->getCode() == 401)
-                throw new ExpiredJwtException();
-            else if ($e->getCode() == 404)
+            if ($e->getCode() === 401) {
+                throw new ExpiredJwtException($e->getMessage());
+            }
+
+            if ($e->getCode() === 404) {
                 return null;
-            throw new GenericException($e);
+            }
+            throw new GenericException($e->getMessage());
         }
+    }
+
+    /**
+     * Guzzle Legacy POST
+     *
+     * @param $route
+     * @param $args
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function legacyPost($route, $args)
+    {
+        return self::$http->post($route, $args);
     }
 }
