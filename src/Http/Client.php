@@ -17,6 +17,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use OpenLRW\Exception\ExpiredJwtException;
 use OpenLRW\Exception\GenericException;
+use OpenLRW\Exception\InternalServerErrorException;
 use OpenLRW\Exception\NotFoundException;
 
 
@@ -42,12 +43,20 @@ class Client
         try {
             return json_decode(self::$http->request('GET', $route, ['headers' => $header])->getBody()->getContents());
         } catch (GuzzleException $e) {
-            if ($e->getCode() === 401) {
-                throw new ExpiredJwtException($e->getMessage());
-            } else if ($e->getCode() === 404) {
-                throw new NotFoundException($e->getMessage());
+            switch ($e->getCode()) {
+                case 401:
+                    throw new ExpiredJwtException($e->getMessage());
+                    break;
+                case 404:
+                    throw new NotFoundException($e->getMessage());
+                    break;
+                case 500:
+                    throw new InternalServerErrorException($e->getMessage());
+                    break;
+                default:
+                    throw new GenericException($e->getMessage());
+                    break;
             }
-            throw new GenericException($e->getMessage());
         }
 
     }
@@ -66,15 +75,20 @@ class Client
         try {
             return self::$http->patch($route, ['headers' => $header, 'body' => $json])->getStatusCode();
         } catch (GuzzleException $e) {
-            if ($e->getCode() === 401) {
-                throw new ExpiredJwtException($e->getMessage());
+            switch ($e->getCode()) {
+                case 401:
+                    throw new ExpiredJwtException($e->getMessage());
+                    break;
+                case 404:
+                    throw new NotFoundException($e->getMessage());
+                    break;
+                case 500:
+                    throw new InternalServerErrorException($e->getMessage());
+                    break;
+                default:
+                    throw new GenericException($e->getMessage());
+                    break;
             }
-
-            if ($e->getCode() === 404) {
-                return null;
-            }
-
-            throw new GenericException($e->getMessage());
         }
     }
 
@@ -92,11 +106,20 @@ class Client
         try {
             return json_decode(self::$http->request('POST', $route, ['headers' => $header, 'json' => $json])->getBody()->getContents());
         } catch (GuzzleException $e) {
-            if ($e->getCode() === 401) {
-                throw new ExpiredJwtException($e->getMessage());
+            switch ($e->getCode()) {
+                case 401:
+                    throw new ExpiredJwtException($e->getMessage());
+                    break;
+                case 404:
+                    throw new NotFoundException($e->getMessage());
+                    break;
+                case 500:
+                    throw new InternalServerErrorException($e->getMessage());
+                    break;
+                default:
+                    throw new GenericException($e->getMessage());
+                    break;
             }
-
-            throw new GenericException($e->getMessage());
         }
     }
 
@@ -113,14 +136,20 @@ class Client
         try {
             return self::$http->delete($route, ['headers' => $header])->getStatusCode();
         } catch (GuzzleException $e) {
-            if ($e->getCode() === 401) {
-                throw new ExpiredJwtException($e->getMessage());
+            switch ($e->getCode()) {
+                case 401:
+                    throw new ExpiredJwtException($e->getMessage());
+                    break;
+                case 404:
+                    throw new NotFoundException($e->getMessage());
+                    break;
+                case 500:
+                    throw new InternalServerErrorException($e->getMessage());
+                    break;
+                default:
+                    throw new GenericException($e->getMessage());
+                    break;
             }
-
-            if ($e->getCode() === 404) {
-                return null;
-            }
-            throw new GenericException($e->getMessage());
         }
     }
 
