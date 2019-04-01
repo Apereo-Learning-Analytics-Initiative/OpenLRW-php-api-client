@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use OpenLRW\ApiClient;
+use OpenLRW\OpenLRW;
 use OpenLRW\Entity\Klass;
 use OpenLRW\Entity\User;
 use OpenLRW\Exception\NotFoundException;
@@ -25,16 +25,16 @@ class ClassTest extends TestCase
 
     public function testClassShouldNotBeNull()
     {
-        new ApiClient(ApiClientTest::URL, ApiClientTest::KEY, ApiClientTest::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(OpenLRWTest::URL, OpenLRWTest::KEY, OpenLRWTest::PASSWORD);
+        OpenLRW::generateJwt();
         $class = Klass::find('1');
         $this->assertNotNull($class);
     }
 
     public function testAttributeShouldNotBeNull()
     {
-        new ApiClient(ApiClientTest::URL, ApiClientTest::KEY, ApiClientTest::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(OpenLRWTest::URL, OpenLRWTest::KEY, OpenLRWTest::PASSWORD);
+        OpenLRW::generateJwt();
         $class = Klass::find('1');
         $sourcedId = $class->sourcedId;
         $this->assertEquals('1', $sourcedId);

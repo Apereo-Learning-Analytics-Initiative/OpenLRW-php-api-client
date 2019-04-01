@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use OpenLRW\ApiClient;
+use OpenLRW\OpenLRW;
 use OpenLRW\Entity\User;
 use OpenLRW\Exception\NotFoundException;
 use PHPUnit\Framework\TestCase;
@@ -24,8 +24,8 @@ class UserTest extends TestCase
 
     public function testUserShouldNotBeNull()
     {
-        new ApiClient(ApiClientTest::URL, ApiClientTest::KEY, ApiClientTest::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(OpenLRWTest::URL, OpenLRWTest::KEY, OpenLRWTest::PASSWORD);
+        OpenLRW::generateJwt();
         $user = User::find('test2u');
         $this->assertNotNull($user);
     }
@@ -34,8 +34,8 @@ class UserTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        new ApiClient(ApiClientTest::URL, ApiClientTest::KEY, ApiClientTest::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(OpenLRWTest::URL, OpenLRWTest::KEY, OpenLRWTest::PASSWORD);
+        OpenLRW::generateJwt();
         User::find('this_user_does_not_exist');
     }
 
