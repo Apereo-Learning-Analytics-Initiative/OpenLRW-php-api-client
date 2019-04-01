@@ -15,7 +15,7 @@
 namespace OpenLRW\Entity;
 
  use DateTime;
- use OpenLRW\ApiClient;
+ use OpenLRW\OpenLRW;
  use OpenLRW\Exception\GenericException;
 
  class Event
@@ -26,10 +26,10 @@ namespace OpenLRW\Entity;
         $header =  [
             'X-Requested-With' => 'XMLHttpRequest',
             'Content-Type' => 'application/json',
-            'Authorization' =>  ApiClient::getKey()
+            'Authorization' =>  OpenLRW::getKey()
         ];
 
-        return ApiClient::guzzlePost("key/caliper", ['headers' => $header, 'body' => $data])->getStatusCode();
+        return OpenLRW::guzzlePost('key/caliper', ['headers' => $header, 'body' => $data])->getStatusCode();
     }
 
 
