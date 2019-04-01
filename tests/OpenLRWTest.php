@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use OpenLRW\ApiClient;
+use OpenLRW\OpenLRW;
 use OpenLRW\Entity\OneRoster;
 use OpenLRW\Entity\User;
 use PHPUnit\Framework\TestCase;
 
-class ApiClientTest extends TestCase
+class OpenLRWTest extends TestCase
 {
 
     const URL = 'localhost:9966';
@@ -28,28 +28,28 @@ class ApiClientTest extends TestCase
 
     public function testClientShouldNotBeNull()
     {
-        $client = new ApiClient(self::URL, self::KEY, self::PASSWORD);
+        $client = new OpenLRW(self::URL, self::KEY, self::PASSWORD);
         $this->assertNotNull($client);
     }
 
 
     public function testServerShouldBeUp()
     {
-        $client = new ApiClient(self::URL, self::KEY, self::PASSWORD);
+        $client = new OpenLRW(self::URL, self::KEY, self::PASSWORD);
         $response = $client::isUp();
         $this->assertTrue($response);
     }
 
     public function testServerShouldBeDown()
     {
-        $client = new ApiClient('http://fake_openlrw.apero.org', self::KEY, self::PASSWORD);
+        $client = new OpenLRW('http://fake_openlrw.apero.org', self::KEY, self::PASSWORD);
         $response = $client::isUp();
         $this->assertFalse($response);
     }
 
     public function testJwtShouldNotBeNull()
     {
-        $client = new ApiClient(self::URL, self::KEY, self::PASSWORD);
+        $client = new OpenLRW(self::URL, self::KEY, self::PASSWORD);
         $client::generateJwt();
         $jwt = $client::getJwt();
         $this->assertNotNull($jwt);
@@ -58,17 +58,17 @@ class ApiClientTest extends TestCase
 
     public function testStaticJwtShouldNotBeNull()
     {
-        $client = new ApiClient(self::URL, self::KEY, self::PASSWORD);
+        $client = new OpenLRW(self::URL, self::KEY, self::PASSWORD);
         $client::generateJwt();
-        $jwt = ApiClient::getJwt();
+        $jwt = OpenLRW::getJwt();
         $this->assertNotNull($jwt);
     }
 
 
     public function testUserShouldNotBeNull()
     {
-        new ApiClient(self::URL, self::KEY, self::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(self::URL, self::KEY, self::PASSWORD);
+        OpenLRW::generateJwt();
         $user = User::find('test2u');
         $this->assertNotNull($user);
     }
@@ -76,8 +76,8 @@ class ApiClientTest extends TestCase
 
     public function testOneRosterGetShouldReturnOk()
     {
-        new ApiClient(self::URL, self::KEY, self::PASSWORD);
-        ApiClient::generateJwt();
+        new OpenLRW(self::URL, self::KEY, self::PASSWORD);
+        OpenLRW::generateJwt();
         $user = OneRoster::get('users/test2u');
         $this->assertNotNull($user);
     }
@@ -85,13 +85,13 @@ class ApiClientTest extends TestCase
 
     public function testGetShouldReturnOk()
     {
-        new ApiClient(self::URL, self::KEY, self::PASSWORD);
+        new OpenLRW(self::URL, self::KEY, self::PASSWORD);
 
-        $jwt = ApiClient::generateJwt();
+        $jwt = OpenLRW::generateJwt();
 
         $header = ['X-Requested-With' => 'XMLHttpRequest', 'Authorization' => "Bearer $jwt"];
 
-        $user = ApiClient::httpGet('/api/users/test2u', $header);
+        $user = OpenLRW::httpGet('/api/users/test2u', $header);
         $this->assertNotNull($user);
     }
 

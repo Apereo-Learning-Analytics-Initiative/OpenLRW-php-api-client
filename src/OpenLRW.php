@@ -15,9 +15,8 @@ namespace OpenLRW;
 use OpenLRW\Exception\GenericException;
 use OpenLRW\Http\Client;
 
-class ApiClient
+class OpenLRW
 {
-    const VERSION = "1.0";
 
     private static $url;
     private static $key;
@@ -83,7 +82,7 @@ class ApiClient
             self::$token = self::$http->post($route, $credentials)->token;
             return self::$token;
         } catch(Exception $e) {
-            throw new GenericException($e);
+            throw new GenericException("Server is down or credentials are invalid.");
         }
     }
 
@@ -117,17 +116,20 @@ class ApiClient
         return self::$key;
     }
 
-
     public static function httpGet($route, $header)
     {
         return self::$http->get($route, $header);
+    }
+
+    public static function httpDelete($route, $header)
+    {
+        return self::$http->delete($route, $header);
     }
 
     public static function httpPost($route, $data, $header)
     {
         return self::$http->post($route, $data, $header);
     }
-
 
     public static function httpPatch($route, $data, $header)
     {
