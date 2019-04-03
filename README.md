@@ -27,13 +27,24 @@ use OpenLRW\OpenLRW;
 $client = new OpenLRW(URL, KEY, PASSWORD);
 ```
 
+### Generate a JSON Web Token
+```php
+OpenLRW::generateJwt();
+```
+
+### Get data
+```php
+$user = OneRoster::get('users/test2u'); // return the data for the user 'test2u'
+```
+
 ### Using OneRoster Model
 > Example with the User collection
 
 #### Get an entity
 ```php
-$user = User::find('foo-bar');
+$user = User::find('foo-bar'); // return a User object
 echo $user->sourcedId; // return 'foo-bar'
+
 ```
 
 #### Delete
