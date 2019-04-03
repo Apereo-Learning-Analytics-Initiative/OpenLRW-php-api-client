@@ -15,12 +15,20 @@ declare(strict_types=1);
 namespace Tests;
 
 use OpenLRW\OpenLRW;
-use OpenLRW\Entity\User;
+use OpenLRW\Model\User;
 use OpenLRW\Exception\NotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
+
+    public function testGivenNameShouldBeString()
+    {
+        $user = new User();
+        $user->givenName = 'foo';
+        $this->assertEquals($user->givenName, 'foo');
+    }
+
 
     public function testUserShouldNotBeNull()
     {
@@ -29,6 +37,16 @@ class UserTest extends TestCase
         $user = User::find('test2u');
         $this->assertNotNull($user);
     }
+
+
+    public function testUserSourcedIdShouldBeString()
+    {
+        new OpenLRW(OpenLRWTest::URL, OpenLRWTest::KEY, OpenLRWTest::PASSWORD);
+        OpenLRW::generateJwt();
+        $user = User::find('test2u');
+        $this->assertEquals($user->sourcedId, 'test2u');
+    }
+
 
     public function testUserShouldThrowException()
     {
