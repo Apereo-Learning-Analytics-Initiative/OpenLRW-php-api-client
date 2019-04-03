@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Tests;
 
 use OpenLRW\OpenLRW;
-use OpenLRW\Entity\OneRoster;
-use OpenLRW\Entity\User;
+use OpenLRW\Model\OneRoster;
+use OpenLRW\Model\User;
 use PHPUnit\Framework\TestCase;
 
 class OpenLRWTest extends TestCase

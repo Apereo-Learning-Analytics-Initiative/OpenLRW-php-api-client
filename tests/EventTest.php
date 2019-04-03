@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Tests;
 
 use OpenLRW\OpenLRW;
-use OpenLRW\Entity\Event;
-use OpenLRW\Entity\User;
+use OpenLRW\Model\Event;
+use OpenLRW\Model\User;
 use PHPUnit\Framework\TestCase;
 
 class EventTest extends TestCase

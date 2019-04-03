@@ -15,9 +15,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use OpenLRW\OpenLRW;
-use OpenLRW\Entity\Klass;
-use OpenLRW\Entity\User;
-use OpenLRW\Exception\NotFoundException;
+use OpenLRW\Model\Klass;
 use PHPUnit\Framework\TestCase;
 
 class ClassTest extends TestCase
