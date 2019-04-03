@@ -40,6 +40,11 @@ echo $user->sourcedId; // return 'foo-bar'
 ```php
 $user = User::find('foo-bar');
 $user->delete(); // User deleted
+
+// Or
+
+User::destroy('foo-bar);
+
 ```
 
 
