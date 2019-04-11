@@ -18,12 +18,11 @@ class Klass extends OneRoster
 {
     protected static $collection = 'classes';
 
-    // ToDo
     protected $fillable = [
         'sourcedId',
         'status',
         'metadata',
-        'lineItem'
+        'title',
     ];
 
     public static function enrollments(String $id)
