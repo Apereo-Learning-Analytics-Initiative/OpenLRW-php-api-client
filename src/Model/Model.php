@@ -239,12 +239,24 @@ abstract class Model
 
     /**
      * Get the value of the model's primary key.
-     *
      * @return mixed
      */
     public function getPrimaryKeyValue()
     {
         return $this->getAttributeValue($this->primaryKey);
+    }
+
+
+    /**
+     * Handle dynamic method calls into the model.
+     *
+     * @param $attribute
+     * @param $method
+     * @return mixed
+     */
+    public function __call($attribute, $method)
+    {
+        return $this->attributes[$attribute];
     }
 
 
