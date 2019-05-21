@@ -2,7 +2,7 @@
 
 > The easier way to implement OpenLRW into your PHP applications (the documentation is not finished)
 
-This API Client was inspired by the Laravel Framework, it allows you to do HTTP requests to the OpenLRW API but also to manipulate objects from these requests.
+Client aimed to request the OpenLRW API in an easy way but also to manipulate objects from these requests.
 
 <p align="center">
 <img src="https://scrutinizer-ci.com/g/Apereo-Learning-Analytics-Initiative/OpenLRW-php-api-client/badges/quality-score.png?b=master" title="Scrutinizer Code Quality">
