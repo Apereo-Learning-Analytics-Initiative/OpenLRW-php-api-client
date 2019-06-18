@@ -23,6 +23,7 @@ abstract class OneRoster extends Model
 
     protected static $collection;
 
+
     /**
      * @return array
      */
@@ -35,8 +36,8 @@ abstract class OneRoster extends Model
         }
 
         return [
-        'X-Requested-With' => 'XMLHttpRequest',
-        'Authorization' => "Bearer $jwt"
+            'X-Requested-With' => 'XMLHttpRequest',
+            'Authorization' => "Bearer $jwt"
         ];
     }
 
@@ -47,13 +48,24 @@ abstract class OneRoster extends Model
         return new static((array)$json);
     }
 
+    public static function getClassName(){
+        return (new \ReflectionClass(get_called_class()))->getShortName();
+    }
+
+    protected static function extract($object)
+    {
+        $name = mb_strtolower(self::getClassName());
+        return $object->$name;
+    }
+
     public static function all()
     {
         $header = self::generateHeader();
         $json_array = OpenLRW::httpGet(self::PREFIX . static::$collection, $header);
         $results = [];
         foreach ($json_array as $json) {
-            $results[] = new static((array)$json);
+            $object = self::extract($json);
+            $results[] = new static((array)$object);;
         }
 
         return $results;
