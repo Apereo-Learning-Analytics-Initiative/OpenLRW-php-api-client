@@ -68,12 +68,30 @@ class OpenLRW
     }
 
     /**
-     * Creates a JSON Web Token
-     *
-     * @return mixed|\Psr\Http\Message\ResponseInterface
-     * @throws GenericException
-     * @throws \Exception
+     * Get the indicator status of the server
+     * @return bool
      */
+    public static function serverStatus()
+    {
+        try {
+            $response = self::$http->get('/actuator/health');
+            return $response->status === 'UP';
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public static function changeServerStatus(
+
+
+
+        /**
+         * Creates a JSON Web Token
+         *
+         * @return mixed|\Psr\Http\Message\ResponseInterface
+         * @throws GenericException
+         * @throws \Exception
+         */
     public static function generateJwt()
     {
         $route = 'api/auth/login';
