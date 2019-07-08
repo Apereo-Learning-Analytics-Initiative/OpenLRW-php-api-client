@@ -27,26 +27,26 @@ class Klass extends OneRoster
 
     public static function enrollments(String $id)
     {
-        return parent::get("classes/$id/enrollments");
+        return parent::httpGet("classes/$id/enrollments");
     }
 
     public static function events(String $id)
     {
-        return parent::get("classes/$id/events/stats");
+        return parent::httpGet("classes/$id/events/stats");
     }
 
     public static function eventsForUser(String $id, String $userId)
     {
-        return parent::get("classes/$id/events/user/$userId");
+        return parent::httpGet("classes/$id/events/user/$userId");
     }
 
     public static function resultsForUser(String $id, String $userId)
     {
-        return parent::get("classes/$id/results/user/$userId");
+        return parent::httpGet("classes/$id/results/user/$userId");
     }
 
     public static function lineItems(String $id) {
-        return parent::get("classes/$id/lineitems");
+        return parent::httpGet("classes/$id/lineitems");
     }
 
 }

@@ -36,22 +36,22 @@ class User extends OneRoster
 
     public static function enrollments(String $id)
     {
-        return parent::get(static::$collection . "/$id/enrollments");
+        return parent::httpGet(static::$collection . "/$id/enrollments");
     }
 
     public static function events(String $id)
     {
-        return parent::get(static::$collection . "/$id/events");
+        return parent::httpGet(static::$collection . "/$id/events");
     }
 
     public static function eventsFrom(String $id, String $from)
     {
-        return parent::get(static::$collection . "/$id/events?from=$from");
+        return parent::httpGet(static::$collection . "/$id/events?from=$from");
     }
 
     public static function eventsFromTo(String $id, String $from, String $to)
     {
-        return parent::get(static::$collection . "/$id/events?from=$from&to=$to");
+        return parent::httpGet(static::$collection . "/$id/events?from=$from&to=$to");
     }
 
 }
