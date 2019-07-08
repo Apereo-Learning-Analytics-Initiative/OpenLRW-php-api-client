@@ -32,12 +32,12 @@ class Risk extends OneRoster
 
     public static function findByClassAndUser(String $classId, String $userId)
     {
-        return parent::get("risks/classes/$classId/users/$userId", Risk::class);
+        return parent::get("risks/classes/$classId/users/$userId");
     }
 
     public static function latestByClassAndUser(String $classId, String $userId)
     {
-        return parent::get("risks/classes/$classId/users/$userId?date=latest", Risk::class);
+        return parent::get("risks/classes/$classId/users/$userId?date=latest");
     }
 
 
