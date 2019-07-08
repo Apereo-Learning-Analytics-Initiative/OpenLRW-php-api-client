@@ -143,11 +143,14 @@ abstract class OneRoster extends Model
      * @param $class the type of the object wanted
      * @return mixed
      */
-    protected static function get($route, $class) {
+    protected static function get($route, $class = null) {
         $header = self::generateHeader();
+        if ($class == null) {
+            $class = get_called_class();
+        }
         $json = OpenLRW::httpGet(self::PREFIX . $route, $header);
         if (count($json) < 2 ) {
-            return new static ((array)$json[0]);
+            return new $class((array)$json[0]);
         } else {
             $results = [];
             foreach ($json as $item) {
