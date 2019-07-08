@@ -81,8 +81,6 @@ class OpenLRW
         }
     }
 
-    public static function changeServerStatus(
-
 
 
         /**
