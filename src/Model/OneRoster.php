@@ -15,6 +15,7 @@ namespace OpenLRW\Model;
 
 use OpenLRW\OpenLRW;
 use OpenLRW\Exception\InternalServerErrorException;
+use Symfony\Component\Debug\Exception\UndefinedFunctionException;
 
 abstract class OneRoster extends Model
 {
@@ -41,7 +42,7 @@ abstract class OneRoster extends Model
         ];
     }
 
-    public static function find($id)
+    protected static function find($id)
     {
         $header = self::generateHeader();
         $json = OpenLRW::httpGet(self::PREFIX . static::$collection . "/$id", $header);
@@ -52,13 +53,29 @@ abstract class OneRoster extends Model
         return (new \ReflectionClass(get_called_class()))->getShortName();
     }
 
+    /**
+     * Return the real content of a OneRoster object
+     *
+     * @param $object
+     * @return mixed
+     */
     protected static function extract($object)
     {
-        $name = mb_strtolower(self::getClassName());
-        return $object->$name;
+        try {
+            $name = mb_strtolower(self::getClassName());
+            return $object->$name;
+        } catch (\ErrorException $e) {
+            return $object;
+        }
+
     }
 
-    public static function all()
+    /**
+     * Return a list of objects
+     *
+     * @return array
+     */
+    protected static function all()
     {
         $header = self::generateHeader();
         $json_array = OpenLRW::httpGet(self::PREFIX . static::$collection, $header);
@@ -71,7 +88,7 @@ abstract class OneRoster extends Model
         return $results;
     }
 
-    public static function save($data = null)
+    protected static function save($data = null)
     {
         if ($data === null) {
             $data = static::toJson();
@@ -80,7 +97,7 @@ abstract class OneRoster extends Model
         return OpenLRW::httpPost(self::PREFIX . static::$collection, $header, $data);
     }
 
-    public static function update($id, $data)
+    protected static function update($id, $data)
     {
         $header = self::generateHeader();
         return OpenLRW::httpPatch(self::PREFIX . static::$collection ."/$id", $header, $data);
@@ -92,7 +109,7 @@ abstract class OneRoster extends Model
      *
      * @return int
      */
-    public static function destroy($id)
+    protected static function destroy($id)
     {
         $header = self::generateHeader();
         return OpenLRW::httpDelete(self::PREFIX . static::$collection . "/$id", $header);
@@ -102,18 +119,49 @@ abstract class OneRoster extends Model
      * Delete the model from the database.
      *
      */
-    public function delete()
+    protected function delete()
     {
         return self::destroy($this->getPrimaryKeyValue());
     }
 
-    public static function get($route)
+    /**
+     * HTTP Get that returns a generic array
+     *
+     * @param $route
+     * @return mixed|null
+     */
+    protected static function httpGet($route)
     {
         $header = self::generateHeader();
         return OpenLRW::httpGet(self::PREFIX . $route, $header);
     }
 
-    public static function post($route, $data)
+    /**
+     * HTTP Get that returns an object or a collection of objects
+     *
+     * @param $route
+     * @param $class the type of the object wanted
+     * @return mixed
+     */
+    protected static function get($route, $class) {
+        $header = self::generateHeader();
+        $json = OpenLRW::httpGet(self::PREFIX . $route, $header);
+        if (count($json) < 2 ) {
+            return new static ((array)$json[0]);
+        } else {
+            $results = [];
+            foreach ($json as $item) {
+                $object = self::extract($item);
+                $results[] = new $class((array)$object);
+            }
+
+            return $results;
+        }
+
+    }
+
+
+    protected static function post($route, $data)
     {
         $header = self::generateHeader();
         return OpenLRW::httpPost(self::PREFIX . $route, $header, $data);
