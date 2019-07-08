@@ -1,6 +1,6 @@
 # OpenLRW - PHP Api Client
 
-> The easier way to implement OpenLRW into your PHP applications (the documentation is not finished)
+> The easiest way to implement OpenLRW into your PHP applications (the documentation is not finished)
 
 Client aimed to request the OpenLRW API in an easy way but also to manipulate objects from these requests.
 
