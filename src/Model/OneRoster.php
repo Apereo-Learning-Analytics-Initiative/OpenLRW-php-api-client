@@ -15,7 +15,6 @@ namespace OpenLRW\Model;
 
 use OpenLRW\OpenLRW;
 use OpenLRW\Exception\InternalServerErrorException;
-use Symfony\Component\Debug\Exception\UndefinedFunctionException;
 
 abstract class OneRoster extends Model
 {
@@ -88,15 +87,25 @@ abstract class OneRoster extends Model
         return $results;
     }
 
-    protected static function save($data = null)
+    /**
+     * Save a model
+     *
+     * @return mixed|null
+     */
+    public function save()
     {
-        if ($data === null) {
-            $data = static::toJson();
-        }
+        $attributes = $this->attributes;
         $header = self::generateHeader();
-        return OpenLRW::httpPost(self::PREFIX . static::$collection, $header, $data);
+        return OpenLRW::httpPost(self::PREFIX . static::$collection, $this->attributes, $header);
     }
 
+    /**
+     * Update a model
+     *
+     * @param $id
+     * @param $data
+     * @return mixed|null
+     */
     protected static function update($id, $data)
     {
         $header = self::generateHeader();
