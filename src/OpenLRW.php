@@ -83,13 +83,13 @@ class OpenLRW
 
 
 
-        /**
-         * Creates a JSON Web Token
-         *
-         * @return mixed|\Psr\Http\Message\ResponseInterface
-         * @throws GenericException
-         * @throws \Exception
-         */
+    /**
+     * Creates a JSON Web Token
+     *
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws GenericException
+     * @throws \Exception
+     */
     public static function generateJwt()
     {
         $route = 'api/auth/login';
@@ -142,9 +142,9 @@ class OpenLRW
         return self::$http->delete($route, $header);
     }
 
-    public static function httpPost($route, $data, $header)
+    public static function httpPost(string $route, array $json, array $header = ['X-Requested-With' => 'XMLHttpRequest', 'Content-Type' => 'application/json'])
     {
-        return self::$http->post($route, $data, $header);
+        return self::$http->post($route, $json, $header);
     }
 
     public static function httpPatch($route, $data, $header)
