@@ -62,7 +62,7 @@ abstract class Model
     {
         foreach ($this->fillableFromArray($attributes) as $key => $value)
         {
-                $this->setAttribute($key, $value);
+            $this->setAttribute($key, $value);
         }
         return $this;
     }
@@ -116,11 +116,11 @@ abstract class Model
     }
 
     /**
-    * Convert a value to studly caps case.
-    *
-    * @param  string  $value
-    * @return string
-    */
+     * Convert a value to studly caps case.
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function studly_case($value)
     {
         $value = ucwords(str_replace(['-', '_'], ' ', $value));
