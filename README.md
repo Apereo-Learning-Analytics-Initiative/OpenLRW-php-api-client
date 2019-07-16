@@ -82,13 +82,11 @@ $latestRisk = Risk::latestByClassAndUser($classId, $userId); // Risk::class
 
 ### Generic usage
 
-
 ```php
-### Get data
 $user = OneRoster::httpGet('users/test2u'); // return an array
 
-$dataToSend = ['...'];
-$response = OneRoster::httpPost('users', $dataToSend
+$jsonInArray = ['...'];
+$response = OneRoster::httpPost('users', $jsonInArray);
 ```
 
 ### Helpers
