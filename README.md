@@ -27,44 +27,71 @@ use OpenLRW\OpenLRW;
 $client = new OpenLRW(URL, KEY, PASSWORD);
 ```
 
-### Generate a JSON Web Token
-```php
-OpenLRW::generateJwt();
-```
-
-### Get data
-```php
-$user = OneRoster::get('users/test2u'); // return the data for the user 'test2u'
-```
-
-### Using OneRoster Model
-> Example with the User collection
-
-#### Get an entity
-```php
-$user = User::find('foo-bar'); // return a User object
-echo $user->sourcedId; // return 'foo-bar'
-
-```
-
-#### Delete
-```php
-$user = User::find('foo-bar');
-$user->delete(); // User deleted
-
-// Or
-
-User::destroy('foo-bar);
-
-```
-
-
-### Helpers
 #### Check if the server is up
 ```php
 $isServerUp = OpenLRW::isUp();
 ```
 
+
+### Generate a JSON Web Token
+```php
+OpenLRW::generateJwt();
+```
+
+### OneRoster objects
+> All the OneRoster models are not yet implemented, send an issue to let us know if you need a new collection
+
+#### Example of the basic functions with the User Collection
+> All the OneRoster models have those functions
+
+```php
+// Get and edit a user
+$user = User::find('foobar');
+$user->status = 'active';
+$user->save();
+
+
+// Create a new user
+$user = new User();
+$user->sourcedId = 'foo';
+$user->name = 'bar';
+$user->status 'inactive';
+$user->save();
+
+// Delete a user
+$user->delete(); /** or */ User::destroy('foo-bar');
+
+// Get all the users
+$users = Users::all(); 
+```
+
+### Some examples of the specific functions per class
+> Check the classes to know all those specific functions
+
+```php
+/** Klass model */
+$enrollments = Klass::enrollments($classId); // array
+$events = Klass::events($classId); // array
+// ...
+
+/** Risk */
+$latestRisk = Risk::latestByClassAndUser($classId, $userId); // Risk::class
+// ...
+
+```
+
+### Generic usage
+
+
+```php
+### Get data
+$user = OneRoster::httpGet('users/test2u'); // return an array
+
+$dataToSend = ['...'];
+$response = OneRoster::httpPost('users', $dataToSend
+```
+
+### Helpers
 
 ## Execute tests
 
