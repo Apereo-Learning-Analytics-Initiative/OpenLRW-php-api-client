@@ -40,5 +40,9 @@ class Risk extends OneRoster
         return parent::get("risks/classes/$classId/users/$userId?date=latest");
     }
 
+    public static function findByClassAndUserAndDate(String $classId, String $userId, String $date)
+    {
+        return parent::get("risks/classes/$classId/users/$userId?date=$date");
+    }
 
 }
