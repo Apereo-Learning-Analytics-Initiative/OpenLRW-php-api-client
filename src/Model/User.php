@@ -30,7 +30,13 @@ class User extends OneRoster
         'identifier"',
         'email',
         'sms',
-        'phone'
+        'phone',
+        'password',
+        'dateLastModified',
+        'userEnabled',
+        'grades',
+        'middleName',
+        'userIds'
     ];
 
 
