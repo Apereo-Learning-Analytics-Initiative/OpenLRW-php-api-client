@@ -259,5 +259,13 @@ abstract class Model
         return $this->attributes[$attribute];
     }
 
+    /**
+     * Getter
+     * @return array
+     */
+    public function getAttributes() {
+        return $this->attributes;
+    }
+
 
 }
