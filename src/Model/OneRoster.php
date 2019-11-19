@@ -16,7 +16,7 @@ namespace OpenLRW\Model;
 use OpenLRW\OpenLRW;
 use OpenLRW\Exception\InternalServerErrorException;
 
-abstract class OneRoster extends Model
+class OneRoster extends Model
 {
 
     const PREFIX = 'api/';
