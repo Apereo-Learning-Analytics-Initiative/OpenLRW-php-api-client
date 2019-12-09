@@ -60,4 +60,9 @@ class User extends OneRoster
         return parent::httpGet(static::$collection . "/$id/events?from=$from&to=$to");
     }
 
+    public static function results(String $id)
+    {
+        return parent::httpGet(static::$collection . "/$id/results");
+    }
+
 }
